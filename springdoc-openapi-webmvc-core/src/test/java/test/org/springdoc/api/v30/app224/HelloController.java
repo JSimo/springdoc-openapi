@@ -20,10 +20,10 @@
  *
  */
 
-package test.org.springdoc.api.v30.app223;
+package test.org.springdoc.api.v30.app224;
 
-import io.swagger.v3.oas.models.parameters.Parameter;
-import org.springdoc.core.customizers.OperationCustomizer;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springdoc.core.customizers.RouterOperationCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,12 +39,12 @@ public class HelloController {
 
     // Add custom header in swagger.
     @Bean
-    public OperationCustomizer customize() {
-        return (operation, handlerMethod) -> operation.addParametersItem(
-                new Parameter()
-                        .in("header")
-                        .required(false)
-                        .name(XHEADER));
+    public RouterOperationCustomizer customize() {
+        return (operation, handlerMethod) -> {
+            String[] headers = operation.getHeaders();
+            operation.setHeaders(ArrayUtils.add(headers, XHEADER));
+            return operation;
+        };
     }
 
     @GetMapping(params = {"first"})

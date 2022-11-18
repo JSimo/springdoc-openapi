@@ -35,6 +35,7 @@ import java.util.List;
 @RequestMapping("/overloadedPath")
 @RestController("overloadedPathTest")
 public class HelloController {
+    private final static String XHEADER = "X-Custom-Header";
 
     // Add custom header in swagger.
     @Bean
@@ -43,7 +44,7 @@ public class HelloController {
                 new Parameter()
                         .in("header")
                         .required(false)
-                        .name("X-Custom-Header"));
+                        .name(XHEADER));
     }
 
     @GetMapping(params = {"first"})
